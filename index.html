@@ -157,7 +157,7 @@
 </footer>
 
 <script>
-const API_URL = 'https://script.google.com/macros/s/AKfycbxZuVTocQNBrtr4OruE7XCK-f1zVSwnygGkMtU21f-sFZ-O-IE3x9crRimb0ddplKQg/exec';
+const API_URL = 'https://script.google.com/macros/s/AKfycbzs-fdHLGASQVx4zaxJe4FLNDQIuTAIhSPa4J4Xzeo9aqPdrTx1p9pf1DTbIY27U9j6/exec';
 const MOIS_FR = ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
 
 // ── Loader ──
@@ -240,57 +240,116 @@ function renderHero(data) {
   if(data.brand) document.getElementById('hero-brand').textContent=data.brand;
 }
 
-// ── Render Timeline ──
-function renderTimeline(events) {
-  const container=document.getElementById('timeline-container');
-  if(!events||events.length===0){
-    container.innerHTML='<div class="timeline-spine"></div><div class="loading" style="opacity:0.5">Aucun événement.</div>';
+// ── Render Timeline avec espacement proportionnel aux dates réelles ──
+function renderTimeline(events, rangeStart, rangeEnd) {
+  const container = document.getElementById('timeline-container');
+  if (!events || events.length === 0) {
+    container.innerHTML = '<div class="timeline-spine"></div><div class="loading" style="opacity:0.5">Aucun événement.</div>';
     return;
   }
-  const sorted=[...events].map((ev,i)=>({ev,i,d:parseDateFull(ev.date).start})).sort((a,b)=>schoolOrder(a.d)-schoolOrder(b.d));
-  let html='<div class="timeline-spine"></div>';
-  let curMonth=-1, sideIdx=0;
-  sorted.forEach(({ev,i})=>{
-    const mo=parseDateFull(ev.date).start?.getMonth()??-1;
-    if(mo>=0&&mo!==curMonth){
-      curMonth=mo;
-      html+=`<div class="month-marker"><span class="month-marker-label">${MOIS_FR[mo]}</span></div><div class="month-marker-spacer"></div>`;
-    }
-    const side=sideIdx%2===0?'left':'right'; sideIdx++;
-    const {label}=parseDateFull(ev.date);
-    const embed=toEmbed(ev.video);
-    const preview=(ev.description||'').substring(0,110)+((ev.description||'').length>110?'…':'');
-    const hasMore=(ev.description&&ev.description.length>0)||embed;
-    const cardContent=`
-      <div class="event-title">${ev.titre||''}</div>
-      <p class="event-preview">${preview}</p>
-      ${hasMore?`
-      <button class="event-toggle" onclick="toggleEvent(this,'exp-${i}')">
-        Afficher plus <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
-      </button>
-      <div class="event-expanded" id="exp-${i}">
-        <div class="event-expanded-inner">
-          <p class="event-full-desc">${ev.description||''}</p>
-          ${embed?`<div class="event-video-embed"><iframe src="${embed}" allow="autoplay; encrypted-media" allowfullscreen></iframe></div>`:''}
-        </div>
-      </div>`:''}`;
-    if(side==='left'){
-      html+=`<div class="timeline-item left">
-        <div class="event-card" data-date="${ev.date||''}">${cardContent}</div>
-        <div class="event-center"><div class="event-dot-wrap"><div class="event-dot"></div><span class="event-date-badge">${label}</span></div></div>
-        <div class="event-empty"></div>
+
+  // Trier par ordre année scolaire
+  const sorted = [...events].map((ev, i) => {
+    const { start, end, label } = parseDateFull(ev.date);
+    return { ev, i, start, end, label };
+  }).sort((a, b) => schoolOrder(a.start) - schoolOrder(b.start));
+
+  // Plage temporelle : configurée ou déduite
+  const firstDate = sorted.find(s => s.start)?.start;
+  const lastDate  = sorted.slice().reverse().find(s => s.start)?.start;
+  const tStart = rangeStart || (firstDate
+    ? new Date(firstDate.getFullYear() - (firstDate.getMonth() < 8 ? 1 : 0), 8, 1)
+    : new Date(2025, 8, 1));
+  const tEnd = rangeEnd || (lastDate
+    ? new Date(lastDate.getFullYear() + (lastDate.getMonth() < 7 ? 0 : 1), 6, 31)
+    : new Date(2026, 6, 31));
+  const totalMs = tEnd - tStart;
+
+  const PX_TOTAL = 2800; // hauteur totale de la spine en px
+  const MIN_GAP  = 170;  // écart minimum entre deux events
+
+  function relPx(d) {
+    if (!d) return 0;
+    return Math.max(0, Math.min(1, (d - tStart) / totalMs)) * PX_TOTAL;
+  }
+
+  // Générer marqueurs de mois sur toute la plage
+  const monthMarkers = [];
+  const cur = new Date(tStart.getFullYear(), tStart.getMonth(), 1);
+  while (cur <= tEnd) {
+    monthMarkers.push({ mo: cur.getMonth(), yr: cur.getFullYear(), px: relPx(new Date(cur)) });
+    cur.setMonth(cur.getMonth() + 1);
+  }
+
+  // Fusionner mois + events triés par position px
+  const allItems = [
+    ...monthMarkers.map(m => ({ type: 'month', ...m })),
+    ...sorted.map(s => ({ type: 'event', ...s, px: relPx(s.start) }))
+  ].sort((a, b) => a.px - b.px);
+
+  let html = '<div class="timeline-spine"></div>';
+  let curPx = 0, lastEventPx = -MIN_GAP, lastMonthPx = -60, sideIdx = 0;
+  const seenMonths = new Set();
+
+  allItems.forEach(item => {
+    if (item.type === 'month') {
+      const key = item.mo + '-' + item.yr;
+      if (seenMonths.has(key)) return;
+      seenMonths.add(key);
+      const targetPx = Math.max(item.px, lastMonthPx + 48);
+      const mt = Math.max(0, targetPx - curPx);
+      const showYear = item.yr !== tStart.getFullYear();
+      html += `<div class="month-marker" style="margin-top:${mt}px">
+        <span class="month-marker-label">${MOIS_FR[item.mo]}${showYear ? ' ' + item.yr : ''}</span>
       </div>`;
+      curPx = targetPx;
+      lastMonthPx = targetPx;
     } else {
-      html+=`<div class="timeline-item right">
-        <div class="event-empty"></div>
-        <div class="event-center"><div class="event-dot-wrap"><div class="event-dot"></div><span class="event-date-badge">${label}</span></div></div>
-        <div class="event-card" data-date="${ev.date||''}">${cardContent}</div>
-      </div>`;
+      const { ev, i, label } = item;
+      const targetPx = Math.max(item.px, lastEventPx + MIN_GAP);
+      const mt = Math.max(12, targetPx - curPx);
+      const side = sideIdx % 2 === 0 ? 'left' : 'right'; sideIdx++;
+      const embed = toEmbed(ev.video);
+      const preview = (ev.description || '').substring(0, 110) + ((ev.description || '').length > 110 ? '…' : '');
+      const hasMore = (ev.description && ev.description.length > 0) || embed;
+      const cardContent = `
+        <div class="event-title">${ev.titre || ''}</div>
+        <p class="event-preview">${preview}</p>
+        ${hasMore ? `
+        <button class="event-toggle" onclick="toggleEvent(this,'exp-${i}')">
+          Afficher plus <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="event-expanded" id="exp-${i}">
+          <div class="event-expanded-inner">
+            <p class="event-full-desc">${ev.description || ''}</p>
+            ${embed ? `<div class="event-video-embed"><iframe src="${embed}" allow="autoplay; encrypted-media" allowfullscreen></iframe></div>` : ''}
+          </div>
+        </div>` : ''}`;
+      if (side === 'left') {
+        html += `<div class="timeline-item left" style="margin-top:${mt}px">
+          <div class="event-card" data-date="${ev.date||''}">${cardContent}</div>
+          <div class="event-center"><div class="event-dot-wrap"><div class="event-dot"></div><span class="event-date-badge">${label}</span></div></div>
+          <div class="event-empty"></div>
+        </div>`;
+      } else {
+        html += `<div class="timeline-item right" style="margin-top:${mt}px">
+          <div class="event-empty"></div>
+          <div class="event-center"><div class="event-dot-wrap"><div class="event-dot"></div><span class="event-date-badge">${label}</span></div></div>
+          <div class="event-card" data-date="${ev.date||''}">${cardContent}</div>
+        </div>`;
+      }
+      curPx = targetPx;
+      lastEventPx = targetPx;
     }
   });
-  container.innerHTML=html;
-  const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target);}});},{threshold:0.12});
-  document.querySelectorAll('.timeline-item').forEach(el=>obs.observe(el));
+
+  html += '<div style="height:80px"></div>';
+  container.innerHTML = html;
+
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
+  }, { threshold: 0.05 });
+  document.querySelectorAll('.timeline-item').forEach(el => obs.observe(el));
 }
 
 function toggleEvent(btn,id){
@@ -312,7 +371,10 @@ async function loadData() {
     setLoader('Mise en page…',85);
     renderHero(data.hero||{});
     renderVideo((data.hero||{}).video_url);
-    renderTimeline(data.events||[]);
+    const h = data.hero||{};
+    const rs = h.range_start ? new Date(h.range_start) : null;
+    const re = h.range_end   ? new Date(h.range_end)   : null;
+    renderTimeline(data.events||[], rs, re);
     setLoader('Prêt !',100);
     setTimeout(hideLoader,350);
   } catch(e) {
