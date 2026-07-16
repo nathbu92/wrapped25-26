@@ -646,7 +646,7 @@ const MOIS_LIST=['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Ao�
 }
 async function addEvent() {
   const ev = {
-    date:        document.getElementById('new-date').value.trim(),
+    date:        buildDateString('new'),
     titre:       document.getElementById('new-titre').value.trim(),
     description: document.getElementById('new-desc').value.trim(),
     video:       document.getElementById('new-video').value.trim(),
@@ -672,17 +672,20 @@ async function deleteEvent(i) {
 function openEditModal(i) {
   const ev = appData.events[i];
   document.getElementById('edit-index').value = i;
-  document.getElementById('edit-date').value  = ev.date||'';
   document.getElementById('edit-titre').value = ev.titre||'';
   document.getElementById('edit-desc').value  = ev.description||'';
   document.getElementById('edit-video').value = ev.video||'';
+  // Pré-remplir les selects de date
+  document.getElementById('edit-date-type').value = 'mois';
+  toggleDateFields('edit');
+  setDateFields('edit', ev.date||'');
   document.getElementById('edit-modal').classList.add('open');
 }
 function closeEditModal() { document.getElementById('edit-modal').classList.remove('open'); }
 async function saveEdit() {
   const i = parseInt(document.getElementById('edit-index').value);
   appData.events[i] = {
-    date:        document.getElementById('edit-date').value.trim(),
+    date:        buildDateString('edit'),
     titre:       document.getElementById('edit-titre').value.trim(),
     description: document.getElementById('edit-desc').value.trim(),
     video:       document.getElementById('edit-video').value.trim(),
