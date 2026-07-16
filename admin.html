@@ -576,7 +576,68 @@ async function saveHero() {
 }
 
 // ── EVENTS CRUD ──
-function toggleAddForm() {
+const MOIS_LIST=['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
+
+  function toggleDateFields(prefix){
+    const type=document.getElementById(prefix+'-date-type').value;
+    ['mois','jour','plage'].forEach(t=>{
+      const el=document.getElementById(prefix+'-date-'+t);
+      if(el) el.style.display=t===type?'block':'none';
+    });
+  }
+
+  function buildDateString(prefix){
+    const type=document.getElementById(prefix+'-date-type').value;
+    if(type==='mois'){
+      const m=document.getElementById(prefix+'-mois').value;
+      const y=document.getElementById(prefix+'-annee-mois').value;
+      return (m&&y)?m+' '+y:'';
+    }else if(type==='jour'){
+      const j=document.getElementById(prefix+'-jour').value;
+      const m=document.getElementById(prefix+'-mois-jour').value;
+      const y=document.getElementById(prefix+'-annee-jour').value;
+      return (j&&m&&y)?j+' '+m+' '+y:'';
+    }else{
+      const j1=document.getElementById(prefix+'-jour-debut').value;
+      const j2=document.getElementById(prefix+'-jour-fin').value;
+      const m=document.getElementById(prefix+'-mois-plage').value;
+      const y=document.getElementById(prefix+'-annee-plage').value;
+      return (j1&&j2&&m&&y)?'du '+j1+' au '+j2+' '+m+' '+y:'';
+    }
+  }
+
+  function normStr(s){return s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').substring(0,4);}
+
+  function setDateFields(prefix,dateStr){
+    if(!dateStr)return;
+    let m;
+    m=dateStr.match(/^du (\d+) au (\d+) (\S+) (\d{4})$/i);
+    if(m){
+      document.getElementById(prefix+'-date-type').value='plage';toggleDateFields(prefix);
+      document.getElementById(prefix+'-jour-debut').value=+m[1];
+      document.getElementById(prefix+'-jour-fin').value=+m[2];
+      const mo=MOIS_LIST.find(x=>normStr(x)===normStr(m[3]));
+      if(mo)document.getElementById(prefix+'-mois-plage').value=mo;
+      document.getElementById(prefix+'-annee-plage').value=m[4];return;
+    }
+    m=dateStr.match(/^(\d+) (\S+) (\d{4})$/);
+    if(m){
+      document.getElementById(prefix+'-date-type').value='jour';toggleDateFields(prefix);
+      document.getElementById(prefix+'-jour').value=+m[1];
+      const mo=MOIS_LIST.find(x=>normStr(x)===normStr(m[2]));
+      if(mo)document.getElementById(prefix+'-mois-jour').value=mo;
+      document.getElementById(prefix+'-annee-jour').value=m[3];return;
+    }
+    m=dateStr.match(/^(\S+) (\d{4})$/);
+    if(m){
+      document.getElementById(prefix+'-date-type').value='mois';toggleDateFields(prefix);
+      const mo=MOIS_LIST.find(x=>normStr(x)===normStr(m[1]));
+      if(mo)document.getElementById(prefix+'-mois').value=mo;
+      document.getElementById(prefix+'-annee-mois').value=m[2];
+    }
+  }
+
+  function toggleAddForm(){
   const form = document.getElementById('add-event-form');
   const btn  = document.getElementById('show-add-btn');
   const open = form.style.display === 'block';
