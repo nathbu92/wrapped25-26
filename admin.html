@@ -652,6 +652,7 @@ async function addEvent() {
     video:       document.getElementById('new-video').value.trim(),
   };
   if(!ev.titre) { toast('Le titre est obligatoire.','err'); return; }
+  if(!Array.isArray(appData.events)) appData.events = [];
   appData.events.push(ev);
   const ok = await postData({action:'saveEvents',events:appData.events});
   if(ok) {
