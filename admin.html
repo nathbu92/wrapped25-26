@@ -109,6 +109,9 @@
   .toast.show{transform:translateY(0);opacity:1}
   .toast.ok{border-color:rgba(82,192,122,0.4);color:var(--green)}
   .toast.err{border-color:rgba(224,82,82,0.4);color:var(--red)}
+  .date-fields-group { display:none; }
+  .date-fields-group.active { display:block; }
+  select.form-input { cursor:pointer; }
 </style>
 </head>
 <body>
@@ -223,17 +226,88 @@
           </div>
           <div class="form-row">
             <div class="form-group">
-              <label class="form-label">Date — position sur la frise</label>
-              <input type="text" class="form-input" id="new-date" placeholder="15 mars 2025">
-              <div class="form-hint">
-                📅 Précis : "15 mars 2025"<br>
-                📅 Plage : "du 16 au 20 mars 2026"<br>
-                📅 Mois : "mars 2025"
-              </div>
-            </div>
-            <div class="form-group">
               <label class="form-label">Titre</label>
               <input type="text" class="form-input" id="new-titre" placeholder="Titre de l'événement">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Type de date</label>
+              <select class="form-input" id="new-date-type" onchange="toggleDateFields('new')">
+                <option value="mois">Par mois</option>
+                <option value="jour">Jour précis</option>
+                <option value="plage">Plage (du X au Y)</option>
+              </select>
+            </div>
+          </div>
+          <!-- Champs date dynamiques -->
+          <div id="new-date-fields" class="date-fields-wrap">
+            <!-- mois -->
+            <div class="date-fields-group active" id="new-date-mois">
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label">Mois</label>
+                  <select class="form-input" id="new-mois">
+                    <option value="">— Mois —</option><option value="Janvier" >Janvier</option><option value="Février" >Février</option><option value="Mars" >Mars</option><option value="Avril" >Avril</option><option value="Mai" >Mai</option><option value="Juin" >Juin</option><option value="Juillet" >Juillet</option><option value="Août" >Août</option><option value="Septembre" >Septembre</option><option value="Octobre" >Octobre</option><option value="Novembre" >Novembre</option><option value="Décembre" >Décembre</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Année</label>
+                  <select class="form-input" id="new-annee-mois">
+                    <option value="2023">2023</option><option value="2024">2024</option><option value="2025">2025</option><option value="2026">2026</option><option value="2027">2027</option><option value="2028">2028</option><option value="2029">2029</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <!-- jour précis -->
+            <div class="date-fields-group" id="new-date-jour" style="display:none">
+              <div class="form-row" style="grid-template-columns:80px 1fr 100px">
+                <div class="form-group">
+                  <label class="form-label">Jour</label>
+                  <select class="form-input" id="new-jour">
+                    <option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option><option value="11">11</option><option value="12">12</option><option value="13">13</option><option value="14">14</option><option value="15">15</option><option value="16">16</option><option value="17">17</option><option value="18">18</option><option value="19">19</option><option value="20">20</option><option value="21">21</option><option value="22">22</option><option value="23">23</option><option value="24">24</option><option value="25">25</option><option value="26">26</option><option value="27">27</option><option value="28">28</option><option value="29">29</option><option value="30">30</option><option value="31">31</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Mois</label>
+                  <select class="form-input" id="new-mois-jour">
+                    <option value="">— Mois —</option><option value="Janvier" >Janvier</option><option value="Février" >Février</option><option value="Mars" >Mars</option><option value="Avril" >Avril</option><option value="Mai" >Mai</option><option value="Juin" >Juin</option><option value="Juillet" >Juillet</option><option value="Août" >Août</option><option value="Septembre" >Septembre</option><option value="Octobre" >Octobre</option><option value="Novembre" >Novembre</option><option value="Décembre" >Décembre</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Année</label>
+                  <select class="form-input" id="new-annee-jour">
+                    <option value="2023">2023</option><option value="2024">2024</option><option value="2025">2025</option><option value="2026">2026</option><option value="2027">2027</option><option value="2028">2028</option><option value="2029">2029</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <!-- plage -->
+            <div class="date-fields-group" id="new-date-plage" style="display:none">
+              <div class="form-row" style="grid-template-columns:80px 1fr 80px 100px;align-items:end;gap:8px">
+                <div class="form-group">
+                  <label class="form-label">Du</label>
+                  <select class="form-input" id="new-jour-debut">
+                    <option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option><option value="11">11</option><option value="12">12</option><option value="13">13</option><option value="14">14</option><option value="15">15</option><option value="16">16</option><option value="17">17</option><option value="18">18</option><option value="19">19</option><option value="20">20</option><option value="21">21</option><option value="22">22</option><option value="23">23</option><option value="24">24</option><option value="25">25</option><option value="26">26</option><option value="27">27</option><option value="28">28</option><option value="29">29</option><option value="30">30</option><option value="31">31</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Mois</label>
+                  <select class="form-input" id="new-mois-plage">
+                    <option value="">— Mois —</option><option value="Janvier" >Janvier</option><option value="Février" >Février</option><option value="Mars" >Mars</option><option value="Avril" >Avril</option><option value="Mai" >Mai</option><option value="Juin" >Juin</option><option value="Juillet" >Juillet</option><option value="Août" >Août</option><option value="Septembre" >Septembre</option><option value="Octobre" >Octobre</option><option value="Novembre" >Novembre</option><option value="Décembre" >Décembre</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Au</label>
+                  <select class="form-input" id="new-jour-fin">
+                    <option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option><option value="11">11</option><option value="12">12</option><option value="13">13</option><option value="14">14</option><option value="15">15</option><option value="16">16</option><option value="17">17</option><option value="18">18</option><option value="19">19</option><option value="20">20</option><option value="21">21</option><option value="22">22</option><option value="23">23</option><option value="24">24</option><option value="25">25</option><option value="26">26</option><option value="27">27</option><option value="28">28</option><option value="29">29</option><option value="30">30</option><option value="31">31</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Année</label>
+                  <select class="form-input" id="new-annee-plage">
+                    <option value="2023">2023</option><option value="2024">2024</option><option value="2025">2025</option><option value="2026">2026</option><option value="2027">2027</option><option value="2028">2028</option><option value="2029">2029</option>
+                  </select>
+                </div>
+              </div>
             </div>
           </div>
           <div class="form-group">
@@ -266,13 +340,85 @@
     <input type="hidden" id="edit-index">
     <div class="form-row">
       <div class="form-group">
-        <label class="form-label">Date</label>
-        <input type="text" class="form-input" id="edit-date" placeholder="15 mars 2025 / du 16 au 20 mars 2026">
-        <div style="font-size:11px;color:var(--muted);margin-top:4px">Précis, plage ou mois</div>
-      </div>
-      <div class="form-group">
         <label class="form-label">Titre</label>
         <input type="text" class="form-input" id="edit-titre">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Type de date</label>
+        <select class="form-input" id="edit-date-type" onchange="toggleDateFields('edit')">
+          <option value="mois">Par mois</option>
+          <option value="jour">Jour précis</option>
+          <option value="plage">Plage (du X au Y)</option>
+        </select>
+      </div>
+    </div>
+    <!-- Champs date édition -->
+    <div id="edit-date-fields" class="date-fields-wrap" style="margin-bottom:20px">
+      <div class="date-fields-group active" id="edit-date-mois">
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Mois</label>
+            <select class="form-input" id="edit-mois">
+              <option value="">— Mois —</option><option value="Janvier" >Janvier</option><option value="Février" >Février</option><option value="Mars" >Mars</option><option value="Avril" >Avril</option><option value="Mai" >Mai</option><option value="Juin" >Juin</option><option value="Juillet" >Juillet</option><option value="Août" >Août</option><option value="Septembre" >Septembre</option><option value="Octobre" >Octobre</option><option value="Novembre" >Novembre</option><option value="Décembre" >Décembre</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Année</label>
+            <select class="form-input" id="edit-annee-mois">
+              <option value="2023">2023</option><option value="2024">2024</option><option value="2025">2025</option><option value="2026">2026</option><option value="2027">2027</option><option value="2028">2028</option><option value="2029">2029</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="date-fields-group" id="edit-date-jour" style="display:none">
+        <div class="form-row" style="grid-template-columns:80px 1fr 100px">
+          <div class="form-group">
+            <label class="form-label">Jour</label>
+            <select class="form-input" id="edit-jour">
+              <option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option><option value="11">11</option><option value="12">12</option><option value="13">13</option><option value="14">14</option><option value="15">15</option><option value="16">16</option><option value="17">17</option><option value="18">18</option><option value="19">19</option><option value="20">20</option><option value="21">21</option><option value="22">22</option><option value="23">23</option><option value="24">24</option><option value="25">25</option><option value="26">26</option><option value="27">27</option><option value="28">28</option><option value="29">29</option><option value="30">30</option><option value="31">31</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Mois</label>
+            <select class="form-input" id="edit-mois-jour">
+              <option value="">— Mois —</option><option value="Janvier" >Janvier</option><option value="Février" >Février</option><option value="Mars" >Mars</option><option value="Avril" >Avril</option><option value="Mai" >Mai</option><option value="Juin" >Juin</option><option value="Juillet" >Juillet</option><option value="Août" >Août</option><option value="Septembre" >Septembre</option><option value="Octobre" >Octobre</option><option value="Novembre" >Novembre</option><option value="Décembre" >Décembre</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Année</label>
+            <select class="form-input" id="edit-annee-jour">
+              <option value="2023">2023</option><option value="2024">2024</option><option value="2025">2025</option><option value="2026">2026</option><option value="2027">2027</option><option value="2028">2028</option><option value="2029">2029</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="date-fields-group" id="edit-date-plage" style="display:none">
+        <div class="form-row" style="grid-template-columns:80px 1fr 80px 100px;align-items:end;gap:8px">
+          <div class="form-group">
+            <label class="form-label">Du</label>
+            <select class="form-input" id="edit-jour-debut">
+              <option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option><option value="11">11</option><option value="12">12</option><option value="13">13</option><option value="14">14</option><option value="15">15</option><option value="16">16</option><option value="17">17</option><option value="18">18</option><option value="19">19</option><option value="20">20</option><option value="21">21</option><option value="22">22</option><option value="23">23</option><option value="24">24</option><option value="25">25</option><option value="26">26</option><option value="27">27</option><option value="28">28</option><option value="29">29</option><option value="30">30</option><option value="31">31</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Mois</label>
+            <select class="form-input" id="edit-mois-plage">
+              <option value="">— Mois —</option><option value="Janvier" >Janvier</option><option value="Février" >Février</option><option value="Mars" >Mars</option><option value="Avril" >Avril</option><option value="Mai" >Mai</option><option value="Juin" >Juin</option><option value="Juillet" >Juillet</option><option value="Août" >Août</option><option value="Septembre" >Septembre</option><option value="Octobre" >Octobre</option><option value="Novembre" >Novembre</option><option value="Décembre" >Décembre</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Au</label>
+            <select class="form-input" id="edit-jour-fin">
+              <option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option><option value="11">11</option><option value="12">12</option><option value="13">13</option><option value="14">14</option><option value="15">15</option><option value="16">16</option><option value="17">17</option><option value="18">18</option><option value="19">19</option><option value="20">20</option><option value="21">21</option><option value="22">22</option><option value="23">23</option><option value="24">24</option><option value="25">25</option><option value="26">26</option><option value="27">27</option><option value="28">28</option><option value="29">29</option><option value="30">30</option><option value="31">31</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Année</label>
+            <select class="form-input" id="edit-annee-plage">
+              <option value="2023">2023</option><option value="2024">2024</option><option value="2025">2025</option><option value="2026">2026</option><option value="2027">2027</option><option value="2028">2028</option><option value="2029">2029</option>
+            </select>
+          </div>
+        </div>
       </div>
     </div>
     <div class="form-group">
@@ -293,7 +439,7 @@
 <div class="toast" id="toast"></div>
 
 <script>
-const API_URL = 'https://script.google.com/macros/s/AKfycbzs-fdHLGASQVx4zaxJe4FLNDQIuTAIhSPa4J4Xzeo9aqPdrTx1p9pf1DTbIY27U9j6/exec';
+const API_URL = 'https://script.google.com/macros/s/AKfycbyODyPWnCvUFGUphDKfwxjlYM-HTVP-4Q-1bKRxS60EDEhv7YOBUD3omxi4yNX8diWs/exec';
 let appData = { hero:{}, events:[] };
 
 // ── AUTH 100% via Sheet ──
@@ -449,7 +595,9 @@ async function addEvent() {
   const ok = await postData({action:'saveEvents',events:appData.events});
   if(ok) {
     renderEvents();
-    ['new-date','new-titre','new-desc','new-video'].forEach(id=>document.getElementById(id).value='');
+    ['new-titre','new-desc','new-video'].forEach(id=>document.getElementById(id).value='');
+    document.getElementById('new-date-type').value='mois';
+    toggleDateFields('new');
     toggleAddForm(); toast('Événement ajouté !','ok');
   } else appData.events.pop();
 }
