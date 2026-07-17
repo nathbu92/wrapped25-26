@@ -138,7 +138,7 @@
 
 <script>
 // ── MÊME URL QUE L'ADMIN ──
-const API_URL = 'https://script.google.com/macros/s/AKfycbyODyPWnCvUFGUphDKfwxjlYM-HTVP-4Q-1bKRxS60EDEhv7YOBUD3omxi4yNX8diWs/exec';
+const API_URL = 'https://script.google.com/macros/s/AKfycbx8Nw6sc3n1BpAJPaJZETGqF84nmrEt3EtapMM6grihCjA4X3B_Wt1L5_ll7-HokW5S/exec';
 const MOIS_FR = ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
 
 // ── Loader ──
@@ -304,7 +304,7 @@ async function loadData(){
   hideRetry();setLoader('Connexion au serveur…',10,false);
   try{
     setLoader('Chargement des contenus…',35);
-    const res=await fetch(API_URL+'?action=getPublic');
+    const res=await fetch(API_URL+'?action=getPublic&t='+Date.now(),{cache:'no-store'});
     setLoader('Récupération des données…',65);
     const data=await res.json();
     setLoader('Mise en page…',85);
