@@ -6,16 +6,8 @@
 <title>Admin — La Martinews</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Instrument+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
-  :root{
-    --ink:#0d0d0d;--bg:#121212;--surface:#1a1a1a;--surface2:#232323;
-    --border:rgba(200,168,75,0.2);--border2:rgba(255,255,255,0.07);
-    --gold:#c8a84b;--gold-dim:rgba(200,168,75,0.15);
-    --red:#e05252;--green:#52c07a;--text:#e8e4dc;--muted:rgba(232,228,220,0.45);
-  }
-  *{margin:0;padding:0;box-sizing:border-box}
-  body{background:var(--bg);color:var(--text);font-family:'Instrument Sans',sans-serif;min-height:100vh}
-
-  /* LOGIN */
+  :root{--ink:#0d0d0d;--bg:#121212;--surface:#1a1a1a;--surface2:#232323;--border:rgba(200,168,75,0.2);--border2:rgba(255,255,255,0.07);--gold:#c8a84b;--gold-dim:rgba(200,168,75,0.15);--red:#e05252;--green:#52c07a;--text:#e8e4dc;--muted:rgba(232,228,220,0.45);}
+  *{margin:0;padding:0;box-sizing:border-box}body{background:var(--bg);color:var(--text);font-family:'Instrument Sans',sans-serif;min-height:100vh}
   .login-screen{min-height:100vh;display:flex;align-items:center;justify-content:center;background:var(--bg);position:fixed;inset:0;z-index:1000;flex-direction:column}
   .login-bg{position:absolute;inset:0;background:radial-gradient(ellipse 60% 50% at 50% 50%,rgba(200,168,75,0.06) 0%,transparent 70%)}
   .login-box{position:relative;width:380px;background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:48px 40px;box-shadow:0 32px 80px rgba(0,0,0,0.6)}
@@ -26,29 +18,21 @@
   .login-input:focus{border-color:var(--gold)}
   .login-error{color:var(--red);font-size:12px;margin-top:8px;min-height:16px}
   .login-btn{width:100%;margin-top:24px;background:var(--gold);color:var(--ink);font-family:'Instrument Sans',sans-serif;font-weight:600;font-size:13px;letter-spacing:0.2em;text-transform:uppercase;border:none;border-radius:4px;padding:14px;cursor:pointer;transition:opacity 0.2s}
-  .login-btn:hover{opacity:0.85}
-  .login-btn:disabled{opacity:0.5;cursor:not-allowed}
-
-  /* ADMIN LAYOUT */
-  .admin{display:none;min-height:100vh}
-  .admin.visible{display:flex}
+  .login-btn:hover{opacity:0.85}.login-btn:disabled{opacity:0.5;cursor:not-allowed}
+  .admin{display:none;min-height:100vh}.admin.visible{display:flex}
   .sidebar{width:240px;background:var(--surface);border-right:1px solid var(--border2);display:flex;flex-direction:column;padding:32px 0;position:fixed;top:0;left:0;bottom:0;z-index:10}
   .sidebar-brand{padding:0 24px 32px;border-bottom:1px solid var(--border2);margin-bottom:24px}
   .sidebar-brand-name{font-family:'Playfair Display',serif;font-size:20px;font-weight:700;color:var(--gold)}
   .sidebar-brand-tag{font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:var(--muted);margin-top:4px}
   .nav-item{padding:10px 24px;font-size:13px;font-weight:500;color:var(--muted);cursor:pointer;display:flex;align-items:center;gap:10px;transition:color 0.2s,background 0.2s;border-left:2px solid transparent}
-  .nav-item:hover{color:var(--text);background:var(--surface2)}
-  .nav-item.active{color:var(--gold);border-left-color:var(--gold);background:var(--gold-dim)}
+  .nav-item:hover{color:var(--text);background:var(--surface2)}.nav-item.active{color:var(--gold);border-left-color:var(--gold);background:var(--gold-dim)}
   .nav-item svg{width:16px;height:16px;opacity:0.7}
   .logout-btn{margin:auto 24px 0;padding:10px 16px;background:none;border:1px solid var(--border2);border-radius:4px;color:var(--muted);font-family:'Instrument Sans',sans-serif;font-size:12px;cursor:pointer;letter-spacing:0.1em;text-transform:uppercase;transition:border-color 0.2s,color 0.2s}
   .logout-btn:hover{border-color:var(--red);color:var(--red)}
   .main-content{margin-left:240px;flex:1;padding:40px 48px;max-width:calc(100% - 240px)}
-  .page-section{display:none}
-  .page-section.active{display:block}
+  .page-section{display:none}.page-section.active{display:block}
   .page-title{font-family:'Playfair Display',serif;font-size:28px;font-weight:700;color:var(--text);margin-bottom:4px}
   .page-sub{font-size:13px;color:var(--muted);margin-bottom:36px}
-
-  /* CARDS */
   .card{background:var(--surface);border:1px solid var(--border2);border-radius:8px;padding:28px;margin-bottom:24px}
   .card-title{font-size:13px;font-weight:600;letter-spacing:0.15em;text-transform:uppercase;color:var(--gold);margin-bottom:20px;display:flex;align-items:center;gap:8px}
   .card-title::after{content:'';flex:1;height:1px;background:var(--border)}
@@ -60,76 +44,51 @@
   .form-hint{font-size:11px;color:var(--muted);margin-top:5px;line-height:1.6}
   .form-row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
   .btn{display:inline-flex;align-items:center;gap:8px;padding:11px 22px;border-radius:4px;font-family:'Instrument Sans',sans-serif;font-size:12px;font-weight:600;letter-spacing:0.15em;text-transform:uppercase;cursor:pointer;border:none;transition:opacity 0.2s,transform 0.1s}
-  .btn:active{transform:scale(0.97)}
-  .btn-primary{background:var(--gold);color:var(--ink)}
-  .btn-primary:hover{opacity:0.85}
-  .btn-danger{background:rgba(224,82,82,0.15);color:var(--red);border:1px solid rgba(224,82,82,0.3)}
-  .btn-danger:hover{background:rgba(224,82,82,0.25)}
-  .btn-ghost{background:var(--surface2);color:var(--muted);border:1px solid var(--border2)}
-  .btn-ghost:hover{color:var(--text)}
+  .btn:active{transform:scale(0.97)}.btn-primary{background:var(--gold);color:var(--ink)}.btn-primary:hover{opacity:0.85}
+  .btn-ghost{background:var(--surface2);color:var(--muted);border:1px solid var(--border2)}.btn-ghost:hover{color:var(--text)}
   .save-bar{display:flex;align-items:center;gap:16px;margin-top:8px}
-  .save-msg{font-size:12px;letter-spacing:0.1em}
-  .save-msg.ok{color:var(--green)}
-  .save-msg.err{color:var(--red)}
-
-  /* EVENTS LIST */
+  .save-msg{font-size:12px;letter-spacing:0.1em}.save-msg.ok{color:var(--green)}.save-msg.err{color:var(--red)}
   .events-list{display:flex;flex-direction:column;gap:12px}
   .event-row{background:var(--surface2);border:1px solid var(--border2);border-radius:6px;padding:16px 20px;display:flex;align-items:flex-start;gap:16px;transition:border-color 0.2s}
-  .event-row:hover{border-color:var(--border)}
-  .event-row-content{flex:1}
+  .event-row:hover{border-color:var(--border)}.event-row-content{flex:1}
   .event-row-date{font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);margin-bottom:3px}
   .event-row-title{font-weight:600;font-size:15px;color:var(--text);margin-bottom:3px}
   .event-row-desc{font-size:12px;color:var(--muted);line-height:1.5}
   .event-row-actions{display:flex;gap:8px;flex-shrink:0}
   .icon-btn{width:32px;height:32px;border-radius:4px;border:1px solid var(--border2);background:none;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--muted);transition:color 0.2s,border-color 0.2s,background 0.2s}
   .icon-btn:hover{color:var(--text);border-color:var(--border);background:var(--surface)}
-  .icon-btn.danger:hover{color:var(--red);border-color:rgba(224,82,82,0.3)}
-  .icon-btn svg{width:14px;height:14px}
+  .icon-btn.danger:hover{color:var(--red);border-color:rgba(224,82,82,0.3)}.icon-btn svg{width:14px;height:14px}
   .add-event-form{background:var(--surface2);border:1px dashed var(--border);border-radius:6px;padding:24px;margin-top:16px;display:none}
   .add-event-header{font-size:12px;font-weight:600;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);margin-bottom:20px;display:flex;align-items:center;justify-content:space-between}
-
-  /* MODAL */
   .modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.75);z-index:500;align-items:center;justify-content:center}
   .modal-overlay.open{display:flex}
-  .modal{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:32px;width:560px;max-width:90vw;max-height:85vh;overflow-y:auto;position:relative}
+  .modal{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:32px;width:580px;max-width:90vw;max-height:85vh;overflow-y:auto;position:relative}
   .modal-title{font-family:'Playfair Display',serif;font-size:22px;font-weight:700;margin-bottom:24px}
   .modal-close{position:absolute;top:20px;right:20px;background:none;border:none;color:var(--muted);cursor:pointer;font-size:20px;line-height:1}
   .modal-close:hover{color:var(--text)}
-
-  /* STATUS */
   .api-status{display:flex;align-items:center;gap:8px;font-size:11px;color:var(--muted);margin-bottom:28px;padding:10px 14px;background:var(--surface2);border-radius:4px;border:1px solid var(--border2)}
-  .status-dot{width:8px;height:8px;border-radius:50%;background:var(--muted)}
-  .status-dot.connected{background:var(--green)}
-  .status-dot.error{background:var(--red)}
-  .status-dot.loading{background:var(--gold);animation:pulse 1s ease-in-out infinite}
+  .status-dot{width:8px;height:8px;border-radius:50%;background:var(--muted)}.status-dot.connected{background:var(--green)}.status-dot.error{background:var(--red)}.status-dot.loading{background:var(--gold);animation:pulse 1s ease-in-out infinite}
   @keyframes pulse{0%,100%{opacity:1}50%{opacity:0.3}}
-
-  /* TOAST */
   .toast{position:fixed;bottom:32px;right:32px;background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:14px 20px;font-size:13px;z-index:900;transform:translateY(80px);opacity:0;transition:all 0.3s cubic-bezier(0.4,0,0.2,1);max-width:320px;box-shadow:0 16px 40px rgba(0,0,0,0.4)}
-  .toast.show{transform:translateY(0);opacity:1}
-  .toast.ok{border-color:rgba(82,192,122,0.4);color:var(--green)}
-  .toast.err{border-color:rgba(224,82,82,0.4);color:var(--red)}
-  .date-fields-group { display:none; }
-  .date-fields-group.active { display:block; }
-  select.form-input { cursor:pointer; }
+  .toast.show{transform:translateY(0);opacity:1}.toast.ok{border-color:rgba(82,192,122,0.4);color:var(--green)}.toast.err{border-color:rgba(224,82,82,0.4);color:var(--red)}
+  .date-block{background:var(--surface);border:1px solid var(--border2);border-radius:6px;padding:16px;margin-bottom:16px}
+  select.form-input{cursor:pointer}
 </style>
 </head>
 <body>
 
-<!-- LOGIN -->
 <div class="login-screen" id="login-screen">
   <div class="login-bg"></div>
   <div class="login-box">
     <div class="login-logo">La Martinews</div>
     <div class="login-sub">Administration</div>
-    <label class="login-label" for="pwd-input">Mot de passe</label>
+    <label class="login-label">Mot de passe</label>
     <input type="password" class="login-input" id="pwd-input" placeholder="••••••••••••" onkeydown="if(event.key==='Enter')doLogin()">
     <div class="login-error" id="login-error"></div>
     <button class="login-btn" id="login-btn" onclick="doLogin()">Accéder au panneau</button>
   </div>
 </div>
 
-<!-- ADMIN -->
 <div class="admin" id="admin-panel">
   <aside class="sidebar">
     <div class="sidebar-brand">
@@ -143,7 +102,7 @@
       </div>
       <div class="nav-item" onclick="switchPage('page-events',this)">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="1"/><path d="M12 5v2M12 17v2M5 12H7M17 12h2"/></svg>
-        Événements frise
+        Événements
       </div>
     </nav>
     <button class="logout-btn" onclick="logout()">Déconnexion</button>
@@ -163,7 +122,7 @@
         <div class="card-title">Contenu principal</div>
         <div class="form-group">
           <label class="form-label">Titre (HTML autorisé)</label>
-          <input type="text" class="form-input" id="hero-titre" placeholder="Rétrospective<br><span>de l'année</span>">
+          <input type="text" class="form-input" id="hero-titre">
         </div>
         <div class="form-group">
           <label class="form-label">Description</label>
@@ -171,34 +130,31 @@
         </div>
         <div class="form-group">
           <label class="form-label">Mention de la marque</label>
-          <input type="text" class="form-input" id="hero-brand" placeholder="La Martinews • Depuis 2020">
+          <input type="text" class="form-input" id="hero-brand">
         </div>
       </div>
       <div class="card">
         <div class="card-title">Plage de la frise</div>
         <div class="form-row">
           <div class="form-group">
-            <label class="form-label">Début de la frise</label>
+            <label class="form-label">Début (ex: 2025-09-01)</label>
             <input type="date" class="form-input" id="hero-range-start">
-            <div class="form-hint">Ex : 01/09/2025 — début de l'année scolaire</div>
           </div>
           <div class="form-group">
-            <label class="form-label">Fin de la frise</label>
+            <label class="form-label">Fin (ex: 2026-07-31)</label>
             <input type="date" class="form-input" id="hero-range-end">
-            <div class="form-hint">Ex : 31/07/2026 — fin de l'année scolaire</div>
           </div>
         </div>
-        <div class="form-hint" style="margin-top:-8px;padding:10px 14px;background:var(--surface2);border-radius:4px;border:1px solid var(--border2)">
-          📐 Les événements seront <strong style="color:var(--gold)">espacés proportionnellement</strong> selon leurs dates dans cette plage.
+        <div class="form-hint" style="padding:10px 14px;background:var(--surface2);border-radius:4px;border:1px solid var(--border2)">
+          📐 Les événements seront <strong style="color:var(--gold)">espacés proportionnellement</strong> dans cette plage.
         </div>
       </div>
-
       <div class="card">
         <div class="card-title">Vidéo YouTube principale</div>
         <div class="form-group">
           <label class="form-label">Lien YouTube ou code embed iframe</label>
           <input type="text" class="form-input" id="hero-video" placeholder="https://www.youtube.com/watch?v=...">
-          <div class="form-hint">Si vide, la section vidéo est masquée sur la page publique.</div>
+          <div class="form-hint">Si vide, la section vidéo est masquée.</div>
         </div>
       </div>
       <div class="save-bar">
@@ -219,110 +175,64 @@
         <div class="events-list" id="events-list">
           <div style="color:var(--muted);font-size:13px;text-align:center;padding:32px">Chargement…</div>
         </div>
+
+        <!-- FORMULAIRE AJOUT -->
         <div class="add-event-form" id="add-event-form">
           <div class="add-event-header">
             Nouvel événement
             <button class="btn btn-ghost" style="padding:6px 12px;font-size:11px" onclick="toggleAddForm()">Annuler</button>
           </div>
-          <div class="form-row">
-            <div class="form-group">
-              <label class="form-label">Titre</label>
-              <input type="text" class="form-input" id="new-titre" placeholder="Titre de l'événement">
-            </div>
-            <div class="form-group">
-              <label class="form-label">Type de date</label>
-              <select class="form-input" id="new-date-type" onchange="toggleDateFields('new')">
-                <option value="mois">Par mois</option>
-                <option value="jour">Jour précis</option>
-                <option value="plage">Plage (du X au Y)</option>
-              </select>
-            </div>
+          <div class="form-group">
+            <label class="form-label">Titre *</label>
+            <input type="text" class="form-input" id="new-titre" placeholder="Titre de l'événement">
           </div>
-          <!-- Champs date dynamiques -->
-          <div id="new-date-fields" class="date-fields-wrap">
-            <!-- mois -->
-            <div class="date-fields-group active" id="new-date-mois">
+          <div class="date-block">
+            <div class="form-row" style="margin-bottom:12px">
+              <div class="form-group" style="margin-bottom:0">
+                <label class="form-label">Type de date</label>
+                <select class="form-input" id="new-date-type" onchange="toggleDateFields('new')">
+                  <option value="mois">Par mois</option>
+                  <option value="jour">Jour précis</option>
+                  <option value="plage">Plage (du X au Y)</option>
+                </select>
+              </div>
+            </div>
+            <div id="new-date-mois">
               <div class="form-row">
-                <div class="form-group">
-                  <label class="form-label">Mois</label>
-                  <select class="form-input" id="new-mois">
-                    <option value="">— Mois —</option><option value="Janvier" >Janvier</option><option value="Février" >Février</option><option value="Mars" >Mars</option><option value="Avril" >Avril</option><option value="Mai" >Mai</option><option value="Juin" >Juin</option><option value="Juillet" >Juillet</option><option value="Août" >Août</option><option value="Septembre" >Septembre</option><option value="Octobre" >Octobre</option><option value="Novembre" >Novembre</option><option value="Décembre" >Décembre</option>
-                  </select>
-                </div>
-                <div class="form-group">
-                  <label class="form-label">Année</label>
-                  <select class="form-input" id="new-annee-mois">
-                    <option value="2023">2023</option><option value="2024">2024</option><option value="2025">2025</option><option value="2026">2026</option><option value="2027">2027</option><option value="2028">2028</option><option value="2029">2029</option>
-                  </select>
-                </div>
+                <div class="form-group" style="margin-bottom:0"><label class="form-label">Mois</label><select class="form-input" id="new-mois"><option value="">— Mois —</option><option value="Janvier">Janvier</option><option value="Février">Février</option><option value="Mars">Mars</option><option value="Avril">Avril</option><option value="Mai">Mai</option><option value="Juin">Juin</option><option value="Juillet">Juillet</option><option value="Août">Août</option><option value="Septembre">Septembre</option><option value="Octobre">Octobre</option><option value="Novembre">Novembre</option><option value="Décembre">Décembre</option></select></div>
+                <div class="form-group" style="margin-bottom:0"><label class="form-label">Année</label><select class="form-input" id="new-annee-mois"><option value="2023">2023</option><option value="2024">2024</option><option value="2025">2025</option><option value="2026">2026</option><option value="2027">2027</option><option value="2028">2028</option><option value="2029">2029</option></select></div>
               </div>
             </div>
-            <!-- jour précis -->
-            <div class="date-fields-group" id="new-date-jour" style="display:none">
+            <div id="new-date-jour" style="display:none">
               <div class="form-row" style="grid-template-columns:80px 1fr 100px">
-                <div class="form-group">
-                  <label class="form-label">Jour</label>
-                  <select class="form-input" id="new-jour">
-                    <option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option><option value="11">11</option><option value="12">12</option><option value="13">13</option><option value="14">14</option><option value="15">15</option><option value="16">16</option><option value="17">17</option><option value="18">18</option><option value="19">19</option><option value="20">20</option><option value="21">21</option><option value="22">22</option><option value="23">23</option><option value="24">24</option><option value="25">25</option><option value="26">26</option><option value="27">27</option><option value="28">28</option><option value="29">29</option><option value="30">30</option><option value="31">31</option>
-                  </select>
-                </div>
-                <div class="form-group">
-                  <label class="form-label">Mois</label>
-                  <select class="form-input" id="new-mois-jour">
-                    <option value="">— Mois —</option><option value="Janvier" >Janvier</option><option value="Février" >Février</option><option value="Mars" >Mars</option><option value="Avril" >Avril</option><option value="Mai" >Mai</option><option value="Juin" >Juin</option><option value="Juillet" >Juillet</option><option value="Août" >Août</option><option value="Septembre" >Septembre</option><option value="Octobre" >Octobre</option><option value="Novembre" >Novembre</option><option value="Décembre" >Décembre</option>
-                  </select>
-                </div>
-                <div class="form-group">
-                  <label class="form-label">Année</label>
-                  <select class="form-input" id="new-annee-jour">
-                    <option value="2023">2023</option><option value="2024">2024</option><option value="2025">2025</option><option value="2026">2026</option><option value="2027">2027</option><option value="2028">2028</option><option value="2029">2029</option>
-                  </select>
-                </div>
+                <div class="form-group" style="margin-bottom:0"><label class="form-label">Jour</label><select class="form-input" id="new-jour"><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option><option value="11">11</option><option value="12">12</option><option value="13">13</option><option value="14">14</option><option value="15">15</option><option value="16">16</option><option value="17">17</option><option value="18">18</option><option value="19">19</option><option value="20">20</option><option value="21">21</option><option value="22">22</option><option value="23">23</option><option value="24">24</option><option value="25">25</option><option value="26">26</option><option value="27">27</option><option value="28">28</option><option value="29">29</option><option value="30">30</option><option value="31">31</option></select></div>
+                <div class="form-group" style="margin-bottom:0"><label class="form-label">Mois</label><select class="form-input" id="new-mois-jour"><option value="">— Mois —</option><option value="Janvier">Janvier</option><option value="Février">Février</option><option value="Mars">Mars</option><option value="Avril">Avril</option><option value="Mai">Mai</option><option value="Juin">Juin</option><option value="Juillet">Juillet</option><option value="Août">Août</option><option value="Septembre">Septembre</option><option value="Octobre">Octobre</option><option value="Novembre">Novembre</option><option value="Décembre">Décembre</option></select></div>
+                <div class="form-group" style="margin-bottom:0"><label class="form-label">Année</label><select class="form-input" id="new-annee-jour"><option value="2023">2023</option><option value="2024">2024</option><option value="2025">2025</option><option value="2026">2026</option><option value="2027">2027</option><option value="2028">2028</option><option value="2029">2029</option></select></div>
               </div>
             </div>
-            <!-- plage -->
-            <div class="date-fields-group" id="new-date-plage" style="display:none">
-              <div class="form-row" style="grid-template-columns:80px 1fr 80px 100px;align-items:end;gap:8px">
-                <div class="form-group">
-                  <label class="form-label">Du</label>
-                  <select class="form-input" id="new-jour-debut">
-                    <option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option><option value="11">11</option><option value="12">12</option><option value="13">13</option><option value="14">14</option><option value="15">15</option><option value="16">16</option><option value="17">17</option><option value="18">18</option><option value="19">19</option><option value="20">20</option><option value="21">21</option><option value="22">22</option><option value="23">23</option><option value="24">24</option><option value="25">25</option><option value="26">26</option><option value="27">27</option><option value="28">28</option><option value="29">29</option><option value="30">30</option><option value="31">31</option>
-                  </select>
-                </div>
-                <div class="form-group">
-                  <label class="form-label">Mois</label>
-                  <select class="form-input" id="new-mois-plage">
-                    <option value="">— Mois —</option><option value="Janvier" >Janvier</option><option value="Février" >Février</option><option value="Mars" >Mars</option><option value="Avril" >Avril</option><option value="Mai" >Mai</option><option value="Juin" >Juin</option><option value="Juillet" >Juillet</option><option value="Août" >Août</option><option value="Septembre" >Septembre</option><option value="Octobre" >Octobre</option><option value="Novembre" >Novembre</option><option value="Décembre" >Décembre</option>
-                  </select>
-                </div>
-                <div class="form-group">
-                  <label class="form-label">Au</label>
-                  <select class="form-input" id="new-jour-fin">
-                    <option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option><option value="11">11</option><option value="12">12</option><option value="13">13</option><option value="14">14</option><option value="15">15</option><option value="16">16</option><option value="17">17</option><option value="18">18</option><option value="19">19</option><option value="20">20</option><option value="21">21</option><option value="22">22</option><option value="23">23</option><option value="24">24</option><option value="25">25</option><option value="26">26</option><option value="27">27</option><option value="28">28</option><option value="29">29</option><option value="30">30</option><option value="31">31</option>
-                  </select>
-                </div>
-                <div class="form-group">
-                  <label class="form-label">Année</label>
-                  <select class="form-input" id="new-annee-plage">
-                    <option value="2023">2023</option><option value="2024">2024</option><option value="2025">2025</option><option value="2026">2026</option><option value="2027">2027</option><option value="2028">2028</option><option value="2029">2029</option>
-                  </select>
-                </div>
+            <div id="new-date-plage" style="display:none">
+              <div class="form-row" style="grid-template-columns:80px 80px 1fr 100px;gap:8px">
+                <div class="form-group" style="margin-bottom:0"><label class="form-label">Du</label><select class="form-input" id="new-jour-debut"><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option><option value="11">11</option><option value="12">12</option><option value="13">13</option><option value="14">14</option><option value="15">15</option><option value="16">16</option><option value="17">17</option><option value="18">18</option><option value="19">19</option><option value="20">20</option><option value="21">21</option><option value="22">22</option><option value="23">23</option><option value="24">24</option><option value="25">25</option><option value="26">26</option><option value="27">27</option><option value="28">28</option><option value="29">29</option><option value="30">30</option><option value="31">31</option></select></div>
+                <div class="form-group" style="margin-bottom:0"><label class="form-label">Au</label><select class="form-input" id="new-jour-fin"><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option><option value="11">11</option><option value="12">12</option><option value="13">13</option><option value="14">14</option><option value="15">15</option><option value="16">16</option><option value="17">17</option><option value="18">18</option><option value="19">19</option><option value="20">20</option><option value="21">21</option><option value="22">22</option><option value="23">23</option><option value="24">24</option><option value="25">25</option><option value="26">26</option><option value="27">27</option><option value="28">28</option><option value="29">29</option><option value="30">30</option><option value="31">31</option></select></div>
+                <div class="form-group" style="margin-bottom:0"><label class="form-label">Mois</label><select class="form-input" id="new-mois-plage"><option value="">— Mois —</option><option value="Janvier">Janvier</option><option value="Février">Février</option><option value="Mars">Mars</option><option value="Avril">Avril</option><option value="Mai">Mai</option><option value="Juin">Juin</option><option value="Juillet">Juillet</option><option value="Août">Août</option><option value="Septembre">Septembre</option><option value="Octobre">Octobre</option><option value="Novembre">Novembre</option><option value="Décembre">Décembre</option></select></div>
+                <div class="form-group" style="margin-bottom:0"><label class="form-label">Année</label><select class="form-input" id="new-annee-plage"><option value="2023">2023</option><option value="2024">2024</option><option value="2025">2025</option><option value="2026">2026</option><option value="2027">2027</option><option value="2028">2028</option><option value="2029">2029</option></select></div>
               </div>
             </div>
           </div>
           <div class="form-group">
-            <label class="form-label">Description complète</label>
+            <label class="form-label">Description</label>
             <textarea class="form-textarea" id="new-desc" rows="3" placeholder="Détails…"></textarea>
           </div>
           <div class="form-group">
-            <label class="form-label">Vidéo (optionnel) — lien YouTube ou embed iframe</label>
-            <input type="text" class="form-input" id="new-video" placeholder="https://www.youtube.com/watch?v=...">
+            <label class="form-label">Vidéo (optionnel)</label>
+            <input type="text" class="form-input" id="new-video" placeholder="Lien YouTube ou embed iframe">
           </div>
           <button class="btn btn-primary" onclick="addEvent()">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
             Ajouter
           </button>
         </div>
+
         <button class="btn btn-ghost" style="margin-top:16px" onclick="toggleAddForm()" id="show-add-btn">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
           Ajouter un événement
@@ -332,92 +242,46 @@
   </main>
 </div>
 
-<!-- EDIT MODAL -->
+<!-- MODAL ÉDITION -->
 <div class="modal-overlay" id="edit-modal">
   <div class="modal">
     <button class="modal-close" onclick="closeEditModal()">✕</button>
     <div class="modal-title">Modifier l'événement</div>
     <input type="hidden" id="edit-index">
-    <div class="form-row">
-      <div class="form-group">
-        <label class="form-label">Titre</label>
-        <input type="text" class="form-input" id="edit-titre">
-      </div>
-      <div class="form-group">
-        <label class="form-label">Type de date</label>
-        <select class="form-input" id="edit-date-type" onchange="toggleDateFields('edit')">
-          <option value="mois">Par mois</option>
-          <option value="jour">Jour précis</option>
-          <option value="plage">Plage (du X au Y)</option>
-        </select>
-      </div>
+    <div class="form-group">
+      <label class="form-label">Titre</label>
+      <input type="text" class="form-input" id="edit-titre">
     </div>
-    <!-- Champs date édition -->
-    <div id="edit-date-fields" class="date-fields-wrap" style="margin-bottom:20px">
-      <div class="date-fields-group active" id="edit-date-mois">
+    <div class="date-block" style="margin-bottom:20px">
+      <div class="form-row" style="margin-bottom:12px">
+        <div class="form-group" style="margin-bottom:0">
+          <label class="form-label">Type de date</label>
+          <select class="form-input" id="edit-date-type" onchange="toggleDateFields('edit')">
+            <option value="mois">Par mois</option>
+            <option value="jour">Jour précis</option>
+            <option value="plage">Plage (du X au Y)</option>
+          </select>
+        </div>
+      </div>
+      <div id="edit-date-mois">
         <div class="form-row">
-          <div class="form-group">
-            <label class="form-label">Mois</label>
-            <select class="form-input" id="edit-mois">
-              <option value="">— Mois —</option><option value="Janvier" >Janvier</option><option value="Février" >Février</option><option value="Mars" >Mars</option><option value="Avril" >Avril</option><option value="Mai" >Mai</option><option value="Juin" >Juin</option><option value="Juillet" >Juillet</option><option value="Août" >Août</option><option value="Septembre" >Septembre</option><option value="Octobre" >Octobre</option><option value="Novembre" >Novembre</option><option value="Décembre" >Décembre</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label class="form-label">Année</label>
-            <select class="form-input" id="edit-annee-mois">
-              <option value="2023">2023</option><option value="2024">2024</option><option value="2025">2025</option><option value="2026">2026</option><option value="2027">2027</option><option value="2028">2028</option><option value="2029">2029</option>
-            </select>
-          </div>
+          <div class="form-group" style="margin-bottom:0"><label class="form-label">Mois</label><select class="form-input" id="edit-mois"><option value="">— Mois —</option><option value="Janvier">Janvier</option><option value="Février">Février</option><option value="Mars">Mars</option><option value="Avril">Avril</option><option value="Mai">Mai</option><option value="Juin">Juin</option><option value="Juillet">Juillet</option><option value="Août">Août</option><option value="Septembre">Septembre</option><option value="Octobre">Octobre</option><option value="Novembre">Novembre</option><option value="Décembre">Décembre</option></select></div>
+          <div class="form-group" style="margin-bottom:0"><label class="form-label">Année</label><select class="form-input" id="edit-annee-mois"><option value="2023">2023</option><option value="2024">2024</option><option value="2025">2025</option><option value="2026">2026</option><option value="2027">2027</option><option value="2028">2028</option><option value="2029">2029</option></select></div>
         </div>
       </div>
-      <div class="date-fields-group" id="edit-date-jour" style="display:none">
+      <div id="edit-date-jour" style="display:none">
         <div class="form-row" style="grid-template-columns:80px 1fr 100px">
-          <div class="form-group">
-            <label class="form-label">Jour</label>
-            <select class="form-input" id="edit-jour">
-              <option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option><option value="11">11</option><option value="12">12</option><option value="13">13</option><option value="14">14</option><option value="15">15</option><option value="16">16</option><option value="17">17</option><option value="18">18</option><option value="19">19</option><option value="20">20</option><option value="21">21</option><option value="22">22</option><option value="23">23</option><option value="24">24</option><option value="25">25</option><option value="26">26</option><option value="27">27</option><option value="28">28</option><option value="29">29</option><option value="30">30</option><option value="31">31</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label class="form-label">Mois</label>
-            <select class="form-input" id="edit-mois-jour">
-              <option value="">— Mois —</option><option value="Janvier" >Janvier</option><option value="Février" >Février</option><option value="Mars" >Mars</option><option value="Avril" >Avril</option><option value="Mai" >Mai</option><option value="Juin" >Juin</option><option value="Juillet" >Juillet</option><option value="Août" >Août</option><option value="Septembre" >Septembre</option><option value="Octobre" >Octobre</option><option value="Novembre" >Novembre</option><option value="Décembre" >Décembre</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label class="form-label">Année</label>
-            <select class="form-input" id="edit-annee-jour">
-              <option value="2023">2023</option><option value="2024">2024</option><option value="2025">2025</option><option value="2026">2026</option><option value="2027">2027</option><option value="2028">2028</option><option value="2029">2029</option>
-            </select>
-          </div>
+          <div class="form-group" style="margin-bottom:0"><label class="form-label">Jour</label><select class="form-input" id="edit-jour"><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option><option value="11">11</option><option value="12">12</option><option value="13">13</option><option value="14">14</option><option value="15">15</option><option value="16">16</option><option value="17">17</option><option value="18">18</option><option value="19">19</option><option value="20">20</option><option value="21">21</option><option value="22">22</option><option value="23">23</option><option value="24">24</option><option value="25">25</option><option value="26">26</option><option value="27">27</option><option value="28">28</option><option value="29">29</option><option value="30">30</option><option value="31">31</option></select></div>
+          <div class="form-group" style="margin-bottom:0"><label class="form-label">Mois</label><select class="form-input" id="edit-mois-jour"><option value="">— Mois —</option><option value="Janvier">Janvier</option><option value="Février">Février</option><option value="Mars">Mars</option><option value="Avril">Avril</option><option value="Mai">Mai</option><option value="Juin">Juin</option><option value="Juillet">Juillet</option><option value="Août">Août</option><option value="Septembre">Septembre</option><option value="Octobre">Octobre</option><option value="Novembre">Novembre</option><option value="Décembre">Décembre</option></select></div>
+          <div class="form-group" style="margin-bottom:0"><label class="form-label">Année</label><select class="form-input" id="edit-annee-jour"><option value="2023">2023</option><option value="2024">2024</option><option value="2025">2025</option><option value="2026">2026</option><option value="2027">2027</option><option value="2028">2028</option><option value="2029">2029</option></select></div>
         </div>
       </div>
-      <div class="date-fields-group" id="edit-date-plage" style="display:none">
-        <div class="form-row" style="grid-template-columns:80px 1fr 80px 100px;align-items:end;gap:8px">
-          <div class="form-group">
-            <label class="form-label">Du</label>
-            <select class="form-input" id="edit-jour-debut">
-              <option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option><option value="11">11</option><option value="12">12</option><option value="13">13</option><option value="14">14</option><option value="15">15</option><option value="16">16</option><option value="17">17</option><option value="18">18</option><option value="19">19</option><option value="20">20</option><option value="21">21</option><option value="22">22</option><option value="23">23</option><option value="24">24</option><option value="25">25</option><option value="26">26</option><option value="27">27</option><option value="28">28</option><option value="29">29</option><option value="30">30</option><option value="31">31</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label class="form-label">Mois</label>
-            <select class="form-input" id="edit-mois-plage">
-              <option value="">— Mois —</option><option value="Janvier" >Janvier</option><option value="Février" >Février</option><option value="Mars" >Mars</option><option value="Avril" >Avril</option><option value="Mai" >Mai</option><option value="Juin" >Juin</option><option value="Juillet" >Juillet</option><option value="Août" >Août</option><option value="Septembre" >Septembre</option><option value="Octobre" >Octobre</option><option value="Novembre" >Novembre</option><option value="Décembre" >Décembre</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label class="form-label">Au</label>
-            <select class="form-input" id="edit-jour-fin">
-              <option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option><option value="11">11</option><option value="12">12</option><option value="13">13</option><option value="14">14</option><option value="15">15</option><option value="16">16</option><option value="17">17</option><option value="18">18</option><option value="19">19</option><option value="20">20</option><option value="21">21</option><option value="22">22</option><option value="23">23</option><option value="24">24</option><option value="25">25</option><option value="26">26</option><option value="27">27</option><option value="28">28</option><option value="29">29</option><option value="30">30</option><option value="31">31</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label class="form-label">Année</label>
-            <select class="form-input" id="edit-annee-plage">
-              <option value="2023">2023</option><option value="2024">2024</option><option value="2025">2025</option><option value="2026">2026</option><option value="2027">2027</option><option value="2028">2028</option><option value="2029">2029</option>
-            </select>
-          </div>
+      <div id="edit-date-plage" style="display:none">
+        <div class="form-row" style="grid-template-columns:80px 80px 1fr 100px;gap:8px">
+          <div class="form-group" style="margin-bottom:0"><label class="form-label">Du</label><select class="form-input" id="edit-jour-debut"><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option><option value="11">11</option><option value="12">12</option><option value="13">13</option><option value="14">14</option><option value="15">15</option><option value="16">16</option><option value="17">17</option><option value="18">18</option><option value="19">19</option><option value="20">20</option><option value="21">21</option><option value="22">22</option><option value="23">23</option><option value="24">24</option><option value="25">25</option><option value="26">26</option><option value="27">27</option><option value="28">28</option><option value="29">29</option><option value="30">30</option><option value="31">31</option></select></div>
+          <div class="form-group" style="margin-bottom:0"><label class="form-label">Au</label><select class="form-input" id="edit-jour-fin"><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option><option value="11">11</option><option value="12">12</option><option value="13">13</option><option value="14">14</option><option value="15">15</option><option value="16">16</option><option value="17">17</option><option value="18">18</option><option value="19">19</option><option value="20">20</option><option value="21">21</option><option value="22">22</option><option value="23">23</option><option value="24">24</option><option value="25">25</option><option value="26">26</option><option value="27">27</option><option value="28">28</option><option value="29">29</option><option value="30">30</option><option value="31">31</option></select></div>
+          <div class="form-group" style="margin-bottom:0"><label class="form-label">Mois</label><select class="form-input" id="edit-mois-plage"><option value="">— Mois —</option><option value="Janvier">Janvier</option><option value="Février">Février</option><option value="Mars">Mars</option><option value="Avril">Avril</option><option value="Mai">Mai</option><option value="Juin">Juin</option><option value="Juillet">Juillet</option><option value="Août">Août</option><option value="Septembre">Septembre</option><option value="Octobre">Octobre</option><option value="Novembre">Novembre</option><option value="Décembre">Décembre</option></select></div>
+          <div class="form-group" style="margin-bottom:0"><label class="form-label">Année</label><select class="form-input" id="edit-annee-plage"><option value="2023">2023</option><option value="2024">2024</option><option value="2025">2025</option><option value="2026">2026</option><option value="2027">2027</option><option value="2028">2028</option><option value="2029">2029</option></select></div>
         </div>
       </div>
     </div>
@@ -426,7 +290,7 @@
       <textarea class="form-textarea" id="edit-desc" rows="4"></textarea>
     </div>
     <div class="form-group">
-      <label class="form-label">Vidéo (optionnel) — lien YouTube ou embed iframe</label>
+      <label class="form-label">Vidéo (optionnel)</label>
       <input type="text" class="form-input" id="edit-video">
     </div>
     <div style="display:flex;gap:12px;margin-top:8px">
@@ -441,106 +305,82 @@
 <script>
 const API_URL = 'https://script.google.com/macros/s/AKfycbyODyPWnCvUFGUphDKfwxjlYM-HTVP-4Q-1bKRxS60EDEhv7YOBUD3omxi4yNX8diWs/exec';
 let appData = { hero:{}, events:[] };
+const MOIS_LIST = ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
 
-// ── AUTH 100% via Sheet ──
+// ── AUTH ──
 async function doLogin() {
-  const val = document.getElementById('pwd-input').value;
-  if(!val) return;
-  const btn = document.getElementById('login-btn');
-  const errEl = document.getElementById('login-error');
-  btn.textContent = 'Vérification…'; btn.disabled = true; errEl.textContent = '';
-  try {
-    const res = await fetch(API_URL+'?action=getPassword');
-    const data = await res.json();
-    let stored = data.password || null;
-    const inputB64 = btoa(unescape(encodeURIComponent(val)));
-    if(!stored) {
-      // Première connexion : enregistre le mdp
-      await fetch(API_URL, {method:'POST',mode:'no-cors',body:JSON.stringify({action:'savePassword',password:inputB64}),headers:{'Content-Type':'application/json'}});
-      document.getElementById('login-screen').style.display = 'none';
-      document.getElementById('admin-panel').classList.add('visible');
-      init(); return;
+  const val=document.getElementById('pwd-input').value;
+  if(!val)return;
+  const btn=document.getElementById('login-btn'),errEl=document.getElementById('login-error');
+  btn.textContent='Vérification…';btn.disabled=true;errEl.textContent='';
+  try{
+    const res=await fetch(API_URL+'?action=getPassword');
+    const data=await res.json();
+    const stored=data.password||null;
+    const b64=btoa(unescape(encodeURIComponent(val)));
+    if(!stored){
+      await fetch(API_URL,{method:'POST',mode:'no-cors',body:JSON.stringify({action:'savePassword',password:b64}),headers:{'Content-Type':'application/json'}});
+      openAdmin();return;
     }
-    if(inputB64 === stored) {
-      document.getElementById('login-screen').style.display = 'none';
-      document.getElementById('admin-panel').classList.add('visible');
-      init();
-    } else {
-      errEl.textContent = 'Mot de passe incorrect.';
-      document.getElementById('pwd-input').value = '';
-      document.getElementById('pwd-input').focus();
-    }
-  } catch(e) {
-    errEl.textContent = 'Impossible de joindre le serveur.';
-  } finally {
-    btn.textContent = 'Accéder au panneau'; btn.disabled = false;
-  }
+    if(b64===stored){openAdmin();}
+    else{errEl.textContent='Mot de passe incorrect.';document.getElementById('pwd-input').value='';document.getElementById('pwd-input').focus();}
+  }catch(e){errEl.textContent='Impossible de joindre le serveur.';}
+  finally{btn.textContent='Accéder au panneau';btn.disabled=false;}
 }
-function logout() {
-  document.getElementById('login-screen').style.display = 'flex';
-  document.getElementById('admin-panel').classList.remove('visible');
-  document.getElementById('pwd-input').value = '';
-}
+function openAdmin(){document.getElementById('login-screen').style.display='none';document.getElementById('admin-panel').classList.add('visible');init();}
+function logout(){document.getElementById('login-screen').style.display='flex';document.getElementById('admin-panel').classList.remove('visible');document.getElementById('pwd-input').value='';}
 
 // ── NAV ──
-function switchPage(id, el) {
+function switchPage(id,el){
   document.querySelectorAll('.page-section').forEach(s=>s.classList.remove('active'));
   document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
-  el.classList.add('active');
+  document.getElementById(id).classList.add('active');el.classList.add('active');
 }
 
 // ── STATUS ──
-function setStatus(state, msg) {
-  document.getElementById('status-dot').className = 'status-dot '+state;
-  document.getElementById('status-text').textContent = msg;
-}
+function setStatus(state,msg){document.getElementById('status-dot').className='status-dot '+state;document.getElementById('status-text').textContent=msg;}
 
-// ── FETCH DATA ──
-async function fetchData() {
+// ── FETCH ──
+async function fetchData(){
   setStatus('loading','Chargement…');
-  try {
-    const res = await fetch(API_URL+'?action=getPublic');
-    const data = await res.json();
-    appData = data;
+  try{
+    const res=await fetch(API_URL+'?action=getPublic');
+    const data=await res.json();
+    // Garantir que events est toujours un tableau
+    appData={hero:data.hero||{},events:Array.isArray(data.events)?data.events:[]};
     setStatus('connected','Connecté à Google Sheets ✓');
     renderAll();
-  } catch(e) {
-    setStatus('error','Erreur lors du chargement des données');
-    loadFallback();
+  }catch(e){
+    setStatus('error','Erreur de chargement');
+    appData={hero:{},events:[]};renderAll();
   }
-}
-function loadFallback() {
-  appData = { hero:{titre:'',description:'',brand:'La Martinews',video_url:''}, events:[] };
-  renderAll();
 }
 
-// ── POST DATA ──
-async function postData(payload) {
-  try {
-    await fetch(API_URL, {method:'POST',mode:'no-cors',body:JSON.stringify(payload),headers:{'Content-Type':'application/json'}});
+// ── POST ──
+async function postData(payload){
+  try{
+    await fetch(API_URL,{method:'POST',mode:'no-cors',body:JSON.stringify(payload),headers:{'Content-Type':'application/json'}});
     return true;
-  } catch(e) {
-    toast('Erreur réseau : '+e.message,'err'); return false;
-  }
+  }catch(e){toast('Erreur réseau','err');return false;}
 }
 
 // ── RENDER ──
-function renderAll() {
-  document.getElementById('hero-titre').value = appData.hero?.titre || '';
-  document.getElementById('hero-desc').value = appData.hero?.description || '';
-  document.getElementById('hero-brand').value = appData.hero?.brand || '';
-  document.getElementById('hero-video').value = appData.hero?.video_url || '';
+function renderAll(){
+  const h=appData.hero||{};
+  document.getElementById('hero-titre').value       = h.titre||'';
+  document.getElementById('hero-desc').value        = h.description||'';
+  document.getElementById('hero-brand').value       = h.brand||'';
+  document.getElementById('hero-video').value       = h.video_url||'';
+  document.getElementById('hero-range-start').value = h.range_start||'';
+  document.getElementById('hero-range-end').value   = h.range_end||'';
   renderEvents();
 }
-function renderEvents() {
-  const list = document.getElementById('events-list');
-  const events = appData.events || [];
-  if(events.length === 0) {
-    list.innerHTML = '<div style="color:var(--muted);font-size:13px;text-align:center;padding:32px">Aucun événement.</div>';
-    return;
-  }
-  list.innerHTML = events.map((ev,i)=>`
+
+function renderEvents(){
+  const list=document.getElementById('events-list');
+  const events=appData.events||[];
+  if(!events.length){list.innerHTML='<div style="color:var(--muted);font-size:13px;text-align:center;padding:32px">Aucun événement.</div>';return;}
+  list.innerHTML=events.map((ev,i)=>`
     <div class="event-row">
       <div class="event-row-content">
         <div class="event-row-date">${ev.date||''}</div>
@@ -559,151 +399,152 @@ function renderEvents() {
 }
 
 // ── SAVE HERO ──
-async function saveHero() {
-  const hero = {
-    titre: document.getElementById('hero-titre').value,
+async function saveHero(){
+  const hero={
+    titre:       document.getElementById('hero-titre').value,
     description: document.getElementById('hero-desc').value,
-    brand: document.getElementById('hero-brand').value,
-    video_url: document.getElementById('hero-video').value,
+    brand:       document.getElementById('hero-brand').value,
+    video_url:   document.getElementById('hero-video').value,
+    range_start: document.getElementById('hero-range-start').value,
+    range_end:   document.getElementById('hero-range-end').value,
   };
-  appData.hero = hero;
-  const msg = document.getElementById('hero-save-msg');
-  msg.textContent = 'Sauvegarde…'; msg.className = 'save-msg';
-  const ok = await postData({action:'saveHero',hero});
-  if(ok) { msg.textContent = '✓ Sauvegardé'; msg.className = 'save-msg ok'; toast('En-tête mis à jour !','ok'); }
-  else   { msg.textContent = '✗ Erreur'; msg.className = 'save-msg err'; }
-  setTimeout(()=>{ msg.textContent=''; },3000);
+  appData.hero=hero;
+  const msg=document.getElementById('hero-save-msg');
+  msg.textContent='Sauvegarde…';msg.className='save-msg';
+  const ok=await postData({action:'saveHero',hero});
+  if(ok){msg.textContent='✓ Sauvegardé';msg.className='save-msg ok';toast('En-tête mis à jour !','ok');}
+  else{msg.textContent='✗ Erreur';msg.className='save-msg err';}
+  setTimeout(()=>{msg.textContent='';},3000);
+}
+
+// ── DATE SELECTS ──
+function toggleDateFields(prefix){
+  const type=document.getElementById(prefix+'-date-type').value;
+  ['mois','jour','plage'].forEach(t=>{
+    const el=document.getElementById(prefix+'-date-'+t);
+    if(el)el.style.display=t===type?'block':'none';
+  });
+}
+
+function buildDateString(prefix){
+  const type=document.getElementById(prefix+'-date-type').value;
+  if(type==='mois'){
+    const m=document.getElementById(prefix+'-mois').value;
+    const y=document.getElementById(prefix+'-annee-mois').value;
+    return(m&&y)?m+' '+y:'';
+  }else if(type==='jour'){
+    const j=document.getElementById(prefix+'-jour').value;
+    const m=document.getElementById(prefix+'-mois-jour').value;
+    const y=document.getElementById(prefix+'-annee-jour').value;
+    return(j&&m&&y)?j+' '+m+' '+y:'';
+  }else{
+    const j1=document.getElementById(prefix+'-jour-debut').value;
+    const j2=document.getElementById(prefix+'-jour-fin').value;
+    const m=document.getElementById(prefix+'-mois-plage').value;
+    const y=document.getElementById(prefix+'-annee-plage').value;
+    return(j1&&j2&&m&&y)?'du '+j1+' au '+j2+' '+m+' '+y:'';
+  }
+}
+
+function normStr(s){return s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').substring(0,4);}
+
+function setDateFields(prefix,dateStr){
+  if(!dateStr)return;
+  let m;
+  m=dateStr.match(/^du (\d+) au (\d+) (\S+) (\d{4})$/i);
+  if(m){
+    document.getElementById(prefix+'-date-type').value='plage';toggleDateFields(prefix);
+    document.getElementById(prefix+'-jour-debut').value=+m[1];
+    document.getElementById(prefix+'-jour-fin').value=+m[2];
+    const mo=MOIS_LIST.find(x=>normStr(x)===normStr(m[3]));
+    if(mo)document.getElementById(prefix+'-mois-plage').value=mo;
+    document.getElementById(prefix+'-annee-plage').value=m[4];return;
+  }
+  m=dateStr.match(/^(\d+) (\S+) (\d{4})$/);
+  if(m){
+    document.getElementById(prefix+'-date-type').value='jour';toggleDateFields(prefix);
+    document.getElementById(prefix+'-jour').value=+m[1];
+    const mo=MOIS_LIST.find(x=>normStr(x)===normStr(m[2]));
+    if(mo)document.getElementById(prefix+'-mois-jour').value=mo;
+    document.getElementById(prefix+'-annee-jour').value=m[3];return;
+  }
+  m=dateStr.match(/^(\S+) (\d{4})$/);
+  if(m){
+    document.getElementById(prefix+'-date-type').value='mois';toggleDateFields(prefix);
+    const mo=MOIS_LIST.find(x=>normStr(x)===normStr(m[1]));
+    if(mo)document.getElementById(prefix+'-mois').value=mo;
+    document.getElementById(prefix+'-annee-mois').value=m[2];
+  }
 }
 
 // ── EVENTS CRUD ──
-const MOIS_LIST=['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
-
-  function toggleDateFields(prefix){
-    const type=document.getElementById(prefix+'-date-type').value;
-    ['mois','jour','plage'].forEach(t=>{
-      const el=document.getElementById(prefix+'-date-'+t);
-      if(el) el.style.display=t===type?'block':'none';
-    });
-  }
-
-  function buildDateString(prefix){
-    const type=document.getElementById(prefix+'-date-type').value;
-    if(type==='mois'){
-      const m=document.getElementById(prefix+'-mois').value;
-      const y=document.getElementById(prefix+'-annee-mois').value;
-      return (m&&y)?m+' '+y:'';
-    }else if(type==='jour'){
-      const j=document.getElementById(prefix+'-jour').value;
-      const m=document.getElementById(prefix+'-mois-jour').value;
-      const y=document.getElementById(prefix+'-annee-jour').value;
-      return (j&&m&&y)?j+' '+m+' '+y:'';
-    }else{
-      const j1=document.getElementById(prefix+'-jour-debut').value;
-      const j2=document.getElementById(prefix+'-jour-fin').value;
-      const m=document.getElementById(prefix+'-mois-plage').value;
-      const y=document.getElementById(prefix+'-annee-plage').value;
-      return (j1&&j2&&m&&y)?'du '+j1+' au '+j2+' '+m+' '+y:'';
-    }
-  }
-
-  function normStr(s){return s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').substring(0,4);}
-
-  function setDateFields(prefix,dateStr){
-    if(!dateStr)return;
-    let m;
-    m=dateStr.match(/^du (\d+) au (\d+) (\S+) (\d{4})$/i);
-    if(m){
-      document.getElementById(prefix+'-date-type').value='plage';toggleDateFields(prefix);
-      document.getElementById(prefix+'-jour-debut').value=+m[1];
-      document.getElementById(prefix+'-jour-fin').value=+m[2];
-      const mo=MOIS_LIST.find(x=>normStr(x)===normStr(m[3]));
-      if(mo)document.getElementById(prefix+'-mois-plage').value=mo;
-      document.getElementById(prefix+'-annee-plage').value=m[4];return;
-    }
-    m=dateStr.match(/^(\d+) (\S+) (\d{4})$/);
-    if(m){
-      document.getElementById(prefix+'-date-type').value='jour';toggleDateFields(prefix);
-      document.getElementById(prefix+'-jour').value=+m[1];
-      const mo=MOIS_LIST.find(x=>normStr(x)===normStr(m[2]));
-      if(mo)document.getElementById(prefix+'-mois-jour').value=mo;
-      document.getElementById(prefix+'-annee-jour').value=m[3];return;
-    }
-    m=dateStr.match(/^(\S+) (\d{4})$/);
-    if(m){
-      document.getElementById(prefix+'-date-type').value='mois';toggleDateFields(prefix);
-      const mo=MOIS_LIST.find(x=>normStr(x)===normStr(m[1]));
-      if(mo)document.getElementById(prefix+'-mois').value=mo;
-      document.getElementById(prefix+'-annee-mois').value=m[2];
-    }
-  }
-
-  function toggleAddForm(){
-  const form = document.getElementById('add-event-form');
-  const btn  = document.getElementById('show-add-btn');
-  const open = form.style.display === 'block';
-  form.style.display = open ? 'none' : 'block';
-  btn.style.display  = open ? 'inline-flex' : 'none';
+function toggleAddForm(){
+  const form=document.getElementById('add-event-form'),btn=document.getElementById('show-add-btn');
+  const open=form.style.display==='block';
+  form.style.display=open?'none':'block';btn.style.display=open?'inline-flex':'none';
 }
-async function addEvent() {
-  const ev = {
+
+async function addEvent(){
+  const ev={
     date:        buildDateString('new'),
     titre:       document.getElementById('new-titre').value.trim(),
     description: document.getElementById('new-desc').value.trim(),
     video:       document.getElementById('new-video').value.trim(),
   };
-  if(!ev.titre) { toast('Le titre est obligatoire.','err'); return; }
-  if(!Array.isArray(appData.events)) appData.events = [];
+  if(!ev.titre){toast('Le titre est obligatoire.','err');return;}
+  if(!ev.date){toast('La date est obligatoire.','err');return;}
+  if(!Array.isArray(appData.events))appData.events=[];
   appData.events.push(ev);
-  const ok = await postData({action:'saveEvents',events:appData.events});
-  if(ok) {
+  const ok=await postData({action:'saveEvents',events:appData.events});
+  if(ok){
     renderEvents();
     ['new-titre','new-desc','new-video'].forEach(id=>document.getElementById(id).value='');
-    document.getElementById('new-date-type').value='mois';
-    toggleDateFields('new');
-    toggleAddForm(); toast('Événement ajouté !','ok');
-  } else appData.events.pop();
+    document.getElementById('new-date-type').value='mois';toggleDateFields('new');
+    toggleAddForm();toast('Événement ajouté !','ok');
+  }else appData.events.pop();
 }
-async function deleteEvent(i) {
-  if(!confirm('Supprimer cet événement ?')) return;
-  const removed = appData.events.splice(i,1);
-  const ok = await postData({action:'saveEvents',events:appData.events});
-  if(ok) { renderEvents(); toast('Événement supprimé.','ok'); }
+
+async function deleteEvent(i){
+  if(!confirm('Supprimer cet événement ?'))return;
+  const removed=appData.events.splice(i,1);
+  const ok=await postData({action:'saveEvents',events:appData.events});
+  if(ok){renderEvents();toast('Événement supprimé.','ok');}
   else appData.events.splice(i,0,removed[0]);
 }
-function openEditModal(i) {
-  const ev = appData.events[i];
-  document.getElementById('edit-index').value = i;
-  document.getElementById('edit-titre').value = ev.titre||'';
-  document.getElementById('edit-desc').value  = ev.description||'';
-  document.getElementById('edit-video').value = ev.video||'';
-  // Pré-remplir les selects de date
-  document.getElementById('edit-date-type').value = 'mois';
+
+function openEditModal(i){
+  const ev=appData.events[i];
+  document.getElementById('edit-index').value=i;
+  document.getElementById('edit-titre').value=ev.titre||'';
+  document.getElementById('edit-desc').value=ev.description||'';
+  document.getElementById('edit-video').value=ev.video||'';
+  document.getElementById('edit-date-type').value='mois';
   toggleDateFields('edit');
-  setDateFields('edit', ev.date||'');
+  setDateFields('edit',ev.date||'');
   document.getElementById('edit-modal').classList.add('open');
 }
-function closeEditModal() { document.getElementById('edit-modal').classList.remove('open'); }
-async function saveEdit() {
-  const i = parseInt(document.getElementById('edit-index').value);
-  appData.events[i] = {
+function closeEditModal(){document.getElementById('edit-modal').classList.remove('open');}
+
+async function saveEdit(){
+  const i=parseInt(document.getElementById('edit-index').value);
+  appData.events[i]={
     date:        buildDateString('edit'),
     titre:       document.getElementById('edit-titre').value.trim(),
     description: document.getElementById('edit-desc').value.trim(),
     video:       document.getElementById('edit-video').value.trim(),
   };
-  const ok = await postData({action:'saveEvents',events:appData.events});
-  if(ok) { closeEditModal(); renderEvents(); toast('Événement modifié !','ok'); }
+  const ok=await postData({action:'saveEvents',events:appData.events});
+  if(ok){closeEditModal();renderEvents();toast('Événement modifié !','ok');}
 }
 
 // ── TOAST ──
-function toast(msg,type='ok') {
-  const el = document.getElementById('toast');
-  el.textContent = msg; el.className = 'toast show '+type;
+function toast(msg,type='ok'){
+  const el=document.getElementById('toast');
+  el.textContent=msg;el.className='toast show '+type;
   setTimeout(()=>el.classList.remove('show'),3000);
 }
 
-// ── INIT ──
-function init() { fetchData(); }
+function init(){fetchData();}
 </script>
 </body>
 </html>
