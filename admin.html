@@ -319,7 +319,7 @@ async function doLogin() {
     const stored=data.password||null;
     const b64=btoa(unescape(encodeURIComponent(val)));
     if(!stored){
-      await fetch(API_URL,{method:'POST',mode:'no-cors',body:JSON.stringify({action:'savePassword',password:b64}),headers:{'Content-Type':'application/json'}});
+      await fetch(API_URL,{method:'POST',mode:'no-cors',body:JSON.stringify({action:'savePassword',password:b64}),headers:{'Content-Type':'text/plain'}});
       openAdmin();return;
     }
     if(b64===stored){openAdmin();}
@@ -359,7 +359,9 @@ async function fetchData(){
 // ── POST ──
 async function postData(payload){
   try{
-    await fetch(API_URL,{method:'POST',mode:'no-cors',body:JSON.stringify(payload),headers:{'Content-Type':'application/json'}});
+    // text/plain est le seul Content-Type autorisé avec no-cors
+    // Apps Script reçoit quand même le JSON dans e.postData.contents
+    await fetch(API_URL,{method:'POST',mode:'no-cors',body:JSON.stringify(payload),headers:{'Content-Type':'text/plain'}});
     return true;
   }catch(e){toast('Erreur réseau','err');return false;}
 }
